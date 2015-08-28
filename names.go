@@ -130,8 +130,8 @@ func Parse(name string) (*Names, error) {
 
 	nameMatches := matchers.name.FindStringSubmatch(unlabeledVars)
 	app := nameMatches[1]
-	stack := checkEmpty(nameMatches[2])
-	detail := checkEmpty(nameMatches[3])
+	stack := nameMatches[2]
+	detail := nameMatches[3]
 
 	names := &Names{
 		Group:        name,
@@ -152,13 +152,6 @@ func Parse(name string) (*Names, error) {
 	}
 
 	return names, nil
-}
-
-func checkEmpty(input string) string {
-	if strings.TrimSpace(input) == "" {
-		return ""
-	}
-	return input
 }
 
 func extractLabeledVariable(labeledVariables string, labelKey string) string {
