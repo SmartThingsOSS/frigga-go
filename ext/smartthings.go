@@ -33,9 +33,21 @@ func ParseStack(input string) (*Shard, error) {
 		return nil, fmt.Errorf("Stack '%s' is not a valid shard format", input)
 	}
 	m := shardMatcher.FindStringSubmatch(input)
-	return &Shard{
-		Name:        m[1],
-		Environment: m[2],
-		Region:      m[3],
-	}, nil
+
+	shard := &Shard{
+		Name:   fmt.Sprintf("%s%s", m[1], m[2]),
+		Region: m[3],
+	}
+
+	for k, env := range envMap {
+		if k == m[2] {
+			shard.Environment = env
+			break
+		}
+	}
+
+	if shard.Environment == "" {
+		return nil, fmt.Errorf("Could not determine environment from stack %s", input)
+	}
+	return shard, nil
 }
