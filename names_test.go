@@ -308,3 +308,15 @@ func TestExtractLabeledVariable(t *testing.T) {
 	assert.Equal(t, "", extractLabeledVariable("-c0northamerica-d0prod-h0gamesystems-p0vizio-r027-u0nccp-x0A-z0useast1a", ""))
 	assert.Equal(t, "", extractLabeledVariable("-p0sony", ""))
 }
+
+func TestCaret(t *testing.T) {
+    names, err := Parse("caret-prod-^1.0.0-v002")
+    assert.Nil(t, err)
+    assert.Equal(t, "caret-prod-^1.0.0-v002", names.Group)
+    assert.Equal(t, "caret-prod-^1.0.0", names.Cluster)
+    assert.Equal(t, "caret", names.App)
+    assert.Equal(t, "prod", names.Stack)
+    assert.Equal(t, "^1.0.0", names.Detail)
+    assert.Equal(t, "v002", names.Push)
+    assert.Equal(t, "002", names.Sequence)
+}
